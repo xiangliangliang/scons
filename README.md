@@ -1,6 +1,8 @@
 # scons
 learn scons
 
+http://www.linuxidc.com/Linux/2013-02/79467p3.htm
+
 
 1.创建环境变量
 
