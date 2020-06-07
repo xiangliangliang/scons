@@ -1,9 +1,6 @@
 # scons
 learn scons
 
-## 从入门到精通 
-
-https://blog.csdn.net/yu132563/article/details/40823385?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase
 
 1.创建环境变量
 
