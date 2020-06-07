@@ -91,3 +91,38 @@ d=dbg.object('foo-dbg','foo.c')
 
 dbg.program(d)
     
+    
+https://www.sogou.com/link?url=LeoKdSZoUyCMNL1GYAdqYWDfV7I9B4wtZpR6MQDH4jfRLTf4YunY2bVFu5KmFeKi8dII-xH8uO9bXnmC1s1VPO4aBOKh09rc07uNVDQa5Va9b9AOmkVQjz3sXhKs5zAQreaVHN88tHY.
+
+
+env = Environment()
+
+
+# Set the include paths
+
+env.Append(CPPPATH = ['src1', 'src2'])
+
+
+# Notice the source files are referred to in the build dir
+
+# If you dont do this, the compiled objects will be in the src dirs
+
+src1Sources = ['build/lib1/class1.cc']
+
+src2Sources = ['build/lib2/class2.cc']
+
+mainSources = ['build/mainApp/main.cc']
+
+
+env.VariantDir(variant_dir = 'build/lib1', src_dir = 'src1', duplicate = 0)
+
+env.VariantDir(variant_dir = 'build/lib2', src_dir = 'src2', duplicate = 0)
+
+env.VariantDir(variant_dir = 'build/mainApp', src_dir = 'srcMain', duplicate = 0)
+
+
+lib1 = env.Library(target = 'build/lib1/src1', source = src1Sources)
+
+lib2 = env.Library(target = 'build/lib1/src2', source = src2Sources)
+
+env.Program(target = 'build/mainApp/main', source = [mainSources, lib1, lib2])
