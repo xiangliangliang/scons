@@ -379,6 +379,8 @@ VariantDir('build', '.')
 
 SConscript('build/SConscript')
 
+--- 如果没有提供variant_dir参数，那么参数duplicate参数将会被忽略，这个参数表示是否备份目标文件。
+
 ## 19 执行环境
 
 19.1 控制命令的执行环境
