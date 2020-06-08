@@ -313,5 +313,103 @@ opt.Program('foo', 'foo.cpp')
 dbg.Program('bar', 'bar.cpp')
 
 
+## 17、控制目标文件的路径：env.install方法
+
+test = env.Program('test.cpp')
+
+env.Install('bin', 'test.exe') #表示要将test.exe 放到bin目录下
+
+## 18、执行SConscript脚本文件
+
+SConscript(scripts, [exports, variant_dir, duplicate])
+
+env.SConscript(scripts, [exports, variant_dir, duplicate])
+
+SConscript(dirs=subdirs, [name=script, exports, variant_dir, duplicate])
+
+env.SConscript(dirs=subdirs, [name=script, exports, variant_dir, duplicate])
+
+调用该sconscript函数有两种方法：
+
+第一种方法是明确指定一个或多个 scripts 作为第一个参数。可以将单个脚本指定为字符串; 多个脚本则必须指定为列表（显式或由函数创建 split），例子：
+
+SConscript（'SConscript'）                            ＃在当前目录中运行SConscript 
+
+SConscript（'src / SConscript'）                      ＃在src目录中运行SConscript 
+
+SConscript（['src / SConscript'，'doc / SConscript']）# 执行多个脚本
+
+第二种方法是将（子）目录名称列表指定为 dirs=subdirs 参数。在这种情况下，scons将 在每个指定目录中执行名为sconscript的辅助配置文件 。您可以 通过提供可选的name = keyword参数来指定除了名为sconscript以外script。例子：
+
+SConscript（dirs ='.'）     ＃在当前目录中运行SConscript 
+
+SConscript（dirs ='src'）    ＃在src目录中运行SConscript 
+
+SConscript（dirs = ['src'，'doc']）
+
+SConscript（dirs = [' sub1'，'sub2']，name ='MySConscript'）
+
+可选exports参数提供变量名称列表或要导出到script的命名值字典。这些变量仅在本地导出到指定 script(s)的变量，并且不会影响export函数使用的全局变量池 。子脚本script必须使用import函数来导入变量。例子：
+
+foo = SConscript（'sub/SConscript'，exports ='env'）
+
+SConscript（'dir/SConscript'，exports = ['env'，'variable']）
+
+SConscript（dirs ='subdir'，exports ='env variable' ）
+
+SConscript（dirs = ['one'，'two'，'three']，exports ='shared_info'）
+
+如果提供variant_dir参数，sconscript位于源码目录之下，就像位于variant_dir目录下一样，例子一：
+
+SConscript('src/SConscript', variant_dir = 'build')
+
+等价于：
+
+VariantDir('build', 'src')      # 指定obj文件的目录
+
+SConscript('build/SConscript')
+
+例子二：
+
+SConscript('SConscript', variant_dir = 'build')
+
+等价于：
+
+VariantDir('build', '.')
+
+SConscript('build/SConscript')
+
+## 19 执行环境
+
+19.1 控制命令的执行环境
+
+path=['/usr/local/bin', '/usr/bin']
+
+env=Environment(ENV={'PATH':PATH})
+
+设置path： 
+
+env['ENV']['PATH']=['/usr/local/bin','/bin','/usr/bin']
+
+env['ENV']['PATH']='/usr/local/bin:/bin:/usr/bin'
+
+19.2 从外部环境获得PATH值
+
+import os
+
+env=Environment(ENV={'PATH':os.environ['PATH']})
+
+在执行环境里增加PATH的值
+
+env=Environment(ENV=os.environ)
+
+env.PrependENVPath('PATH','/usr/local/bin')
+
+env.AppendENVPath('LIB','/usr/local/lib')
+
+
+
+
+
 
 
