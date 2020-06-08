@@ -126,3 +126,65 @@ lib1 = env.Library(target = 'build/lib1/src1', source = src1Sources)
 lib2 = env.Library(target = 'build/lib1/src2', source = src2Sources)
 
 env.Program(target = 'build/mainApp/main', source = [mainSources, lib1, lib2])
+
+
+## 实用说明
+
+1、使用scons编译程序： scons
+
+2、清空编译程序：scons -c
+
+3、将cpp或c文件编译为执行文件: 
+
+3.1 Program('程序名', Split('程序文件序列 空格分隔'))  
+
+3.2 Program('程序名', Glob('*.cpp'))
+
+4、编译的时候想添加上-g -O2 -Wall参数
+
+使用环境变量 env = Environment(CCFLAGS = ['-g', '-O3', '-Wall'])
+
+生成程序 env.Program('程序名'， Glob('*.cpp'))
+
+5、编译生成静态库
+
+方法1：使用library关键字 
+
+library('库名', split('程序文件序列,空格分隔') 或 library('库名', glob('*.cpp')) 
+
+方法2：使用显示关键字staticlibrary 
+
+staticlibrary('库名', split('程序文件序列,空格分隔')) 或 staticlibrary('库名', glob('*.cpp')) 
+
+说明：库名不要前面的lib和后缀，如库libtestdota.a生成时的库名为testdota
+
+6、编译生成动态库 
+
+使用关键字sharedlibrary 
+
+sharedlibrary('库名', split('程序文件序列,空格分隔')) 或 sharedlibrary('库名', glob('*.cpp')) 
+
+说明：库名不要前面的lib和后缀，如库libtestso.so生成时的库名为testso
+
+7、程序或库中引用已有的库 
+
+使用关键字libs和libpath 
+
+libs后跟程序需要引用的库名 
+
+libpath后跟程序引用库的时候所需的库文件路径 
+
+如： program('testpro','prog.c', libs = ['m','m2'], libpath = ['/usr/lib', '/usr/local/lib']) 
+
+生成的testpro程序要引用库libm.so和libm2.so，库文件路径在/usr/lib和/usr/local/lib下
+
+8、指定程序编译过程中需要查找的头文件路径 
+
+使用关键字cpppath 
+
+例如： program('hello','hello.c', cpppath = ['include', '/home/project/inc']) 
+
+生成hello程序的时候hello.c可能引用了其他的头文件，在编译hello.c的时候会查找./include和/home/project/inc下是否有需要的头文件
+
+原文链接：https://blog.csdn.net/fly542/article/details/38342003
+
