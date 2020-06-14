@@ -1,6 +1,52 @@
+## 将编译参数分离成变量：ParseFlags函数
+
+（https://blog.csdn.net/andyelvis/article/details/7308227?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.nonecase）
+
+说明1：ParseFlags返回一个包含了construction变量和值的字典。正常情况下，这个字典将会传递给MergeFlags方法，将选项合并到construction环境中去，但是如果想要提供额外的功能，这个字典可以被编辑。
+
+举例1： 
+        
+        d = env.ParseFlags("-I/opt/include -L/opt/lib -lfoo")
+
+        env.MergeFlags(d)
+        
+        CPPPATH ['/opt/include']
+
+        LIBPATH ['/opt/lib']
+
+        LIBS ['foo']
+        
+        
+说明2： 如果一个字符串以!开始，这个字符串将被传递给shell执行。命令的输出然后被解析:
+
+举例2：
+        
+        d = env.ParseFlags(["!echo -I/opt/include", "!echo -L/opt/lib", "-lfoo"])
+        
+        env.MergeFlags(d)
+        
+        CPPPATH ['/opt/include']
+
+        LIBPATH ['/opt/lib']
+
+        LIBS ['foo']
+
 ## scons 介绍
 
 https://so.csdn.net/so/search/s.do?q=Scons&t=blog&u=kris_fei
+
+- 技巧：
+
+（1）env.Append(CCCOMSTR="CC $SOURCES")定义了编译时的显示格式，若不定义则编译选项非常长，冗余信息非常多，不利于查找有用的错误和警告。
+
+（2）编译后查看目录，多了一个build文件夹，里面放了编译生成的目标文件，实现源文件和目标文件的目录分离在variant_dir='build/module2'处定义，duplicate=0选项是防止源文件被多余地复制到build文件夹下。
+
+    objs = SConscript('../module1/SConscript',variant_dir='build/module1', duplicate=0)
+
+（3）模块编译的最大好处是，SConscript脚本可与模块的源代码连同一起不作任可更改用在别的地方，而不需要重写SConscript脚本
+
+（4）除非显式的import 和export，那么各个SConscript、SConstruct脚本的变量互不干扰，可以同名。
+
 
 # scons
 learn scons
