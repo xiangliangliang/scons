@@ -1,3 +1,7 @@
+## scons 介绍
+
+https://so.csdn.net/so/search/s.do?q=Scons&t=blog&u=kris_fei
+
 # scons
 learn scons
 
